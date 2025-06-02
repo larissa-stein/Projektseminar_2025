@@ -1,0 +1,20 @@
+# IDE / Editor
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.venv/
+
+# Doku Build
+docs/build/
+
+# Datenbanken & sensible Daten
+job_analysis.db
+.env
