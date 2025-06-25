@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.layouts &mdash; Projektseminar 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Projektseminar
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction and Motivation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../project_description.html">AI-supported market analysis of compensation &amp; benefits in M&amp;A integrations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker_setup.html">Docker Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">System Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Code Source:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Projektseminar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.layouts</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.layouts</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">html</span><span class="p">,</span> <span class="n">dcc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dash_bootstrap_components</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dbc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">COLOR_1</span> <span class="o">=</span> <span class="s1">&#39;#AD1B02&#39;</span>
+
+
+<div class="viewcode-block" id="get_general_dashboard_layout">
+<a class="viewcode-back" href="../../layouts.html#src.layouts.get_general_dashboard_layout">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_general_dashboard_layout</span><span class="p">(</span><span class="n">datenrahmen</span><span class="p">,</span> <span class="n">encoded_image</span><span class="p">,</span> <span class="n">job_portale</span><span class="p">,</span> <span class="n">bundeslaender</span><span class="p">,</span> <span class="n">branchen</span><span class="p">,</span> <span class="n">positionen</span><span class="p">,</span>
+                                 <span class="n">unternehmensgroessen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Constructs the layout for the &quot;Allgemeine Analyse der Stellenanzeigen&quot; dashboard in a Dash web application.</span>
+
+<span class="sd">    This dashboard serves as an initial overview of the dataset and provides key insights into the distribution</span>
+<span class="sd">    and structure of job advertisements across various dimensions. It is designed to be the starting point</span>
+<span class="sd">    for users navigating the broader dashboard suite.</span>
+
+<span class="sd">    The layout is visually divided into two vertical sections:</span>
+
+<span class="sd">    **Left Section:**</span>
+<span class="sd">        - **Choropleth Map**: Displays the number of job advertisements per federal state in Germany.</span>
+<span class="sd">          This allows users to visually identify geographical patterns and regional demand variations</span>
+<span class="sd">          in the job market.</span>
+
+<span class="sd">    **Right Section:**</span>
+<span class="sd">        - **KPI Card**: A compact card highlighting three central metrics:</span>
+<span class="sd">            - Total number of job advertisements available in the dataset.</span>
+<span class="sd">            - Number of distinct job titles users can select from.</span>
+<span class="sd">            - Number of distinct companies advertising job positions.</span>
+
+<span class="sd">          These key performance indicators (KPIs) provide users with a quick, high-level understanding of the dataset’s scope.</span>
+
+<span class="sd">        - **Bar Chart**: Visualizes the distribution of job postings by company size.</span>
+<span class="sd">          This helps assess which types of companies are most active in the job market.</span>
+
+<span class="sd">        - **Line Chart**: Illustrates the trend of job advertisements per job portal over time.</span>
+<span class="sd">          This trend analysis enables users to see how the number of postings fluctuates across different platforms,</span>
+<span class="sd">          offering insight into market dynamics and platform relevance.</span>
+
+<span class="sd">    All visual components are integrated using responsive Dash and Dash Bootstrap Components, ensuring accessibility</span>
+<span class="sd">    and clarity across devices.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        datenrahmen (pd.DataFrame): A dataframe containing job advertisement data. It must include</span>
+<span class="sd">            columns relevant to location, portal, industry, job position, and company size.</span>
+<span class="sd">        encoded_image (str): A base64-encoded string of the logo image to be displayed (not currently shown in layout).</span>
+<span class="sd">        job_portale (list): List of job portals from which the postings were scraped.</span>
+<span class="sd">        bundeslaender (list): List of German federal states.</span>
+<span class="sd">        branchen (list): List of industries represented in the data.</span>
+<span class="sd">        positionen (list): List of job positions found in the dataset.</span>
+<span class="sd">        unternehmensgroessen (list): List of company size categories (e.g., small, medium, large).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        html.Div: A Dash HTML Div component containing the structured layout and all associated</span>
+<span class="sd">            visual elements such as maps, charts, and KPIs, ready for rendering in the dashboard interface.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This dashboard acts as a foundation for further analytical dashboards and helps guide users</span>
+<span class="sd">        by providing a holistic view of the job advertisement landscape before exploring more specific metrics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Layout for the general dashboard view</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+        <span class="c1"># Left half (50% of the 80% main area = 40% total width)</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="c1"># Top chart (map)</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span><span class="s1">&#39;Anzahl der Stellenausschreibungen je Bundesland&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;karte&#39;</span><span class="p">,</span>
+                    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;80vh&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">},</span>
+                    <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;displayModeBar&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+                <span class="p">)</span>
+            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">})</span>
+        <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;50%&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;verticalAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;0 5px&#39;</span>
+        <span class="p">}),</span>
+
+        <span class="c1"># Right half (50% of the 80% main area = 40% total width)</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+
+            <span class="c1"># Top row: Card and bar chart side by side</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="c1"># Card (40% of the right half)</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span><span class="s1">&#39;Ergebnisse&#39;</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;2vh&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(0.8rem + 0.5vh)&#39;</span>  <span class="c1"># Responsive font size</span>
+                            <span class="p">}),</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">CardHeader</span><span class="p">(</span>
+                                <span class="s2">&quot;Kennzahlen&quot;</span><span class="p">,</span>
+                                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                    <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;1vh&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;fontWeight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(0.6rem + 0.5vh)&#39;</span>
+                                <span class="p">}</span>
+                            <span class="p">),</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">(</span>
+                                <span class="p">[</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                                            <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;flex&#39;</span><span class="p">,</span>
+                                            <span class="s1">&#39;flexDirection&#39;</span><span class="p">:</span> <span class="s1">&#39;column&#39;</span><span class="p">,</span>
+                                            <span class="s1">&#39;justifyContent&#39;</span><span class="p">:</span> <span class="s1">&#39;space-around&#39;</span><span class="p">,</span>
+                                            <span class="s1">&#39;alignItems&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span>
+                                        <span class="p">},</span>
+                                        <span class="n">children</span><span class="o">=</span><span class="p">[</span>
+                                            <span class="c1"># Block 1: Total number of job listings</span>
+                                            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                                                <span class="p">[</span>
+                                                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span>
+                                                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;gesamtanzahl-karte&#39;</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                                            <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(1rem + 1.5vh)&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;lineHeight&#39;</span><span class="p">:</span> <span class="s1">&#39;1.2&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontWeight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span>
+                                                        <span class="p">}</span>
+                                                    <span class="p">),</span>
+                                                    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+                                                        <span class="s2">&quot;Anzahl der Stellenanzeigen insgesamt&quot;</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                                            <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(0.5rem + 0.5vh)&#39;</span>
+                                                        <span class="p">}</span>
+                                                    <span class="p">)</span>
+                                                <span class="p">],</span>
+                                                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;1vh&#39;</span><span class="p">}</span>
+                                            <span class="p">),</span>
+                                            <span class="c1"># Block 2: Number of selectable job titles</span>
+                                            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                                                <span class="p">[</span>
+                                                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span>
+                                                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;anzahl-jobtitel&#39;</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                                            <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(1rem + 1.5vh)&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;lineHeight&#39;</span><span class="p">:</span> <span class="s1">&#39;1.2&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontWeight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span>
+                                                        <span class="p">}</span>
+                                                    <span class="p">),</span>
+                                                    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+                                                        <span class="s2">&quot;Anzahl der auswählbaren Job Titel&quot;</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                                            <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(0.5rem + 0.5vh)&#39;</span>
+                                                        <span class="p">}</span>
+                                                    <span class="p">)</span>
+                                                <span class="p">],</span>
+                                                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;1vh&#39;</span><span class="p">}</span>
+                                            <span class="p">),</span>
+                                            <span class="c1"># Block 3: Number of selectable companies</span>
+                                            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                                                <span class="p">[</span>
+                                                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span>
+                                                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;anzahl-unternehmen&#39;</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                                            <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(1rem + 1.5vh)&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;lineHeight&#39;</span><span class="p">:</span> <span class="s1">&#39;1.2&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontWeight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span>
+                                                        <span class="p">}</span>
+                                                    <span class="p">),</span>
+                                                    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+                                                        <span class="s2">&quot;Anzahl der auswählbaren Unternehmen&quot;</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                                            <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(0.5rem + 0.5vh)&#39;</span>
+                                                        <span class="p">}</span>
+                                                    <span class="p">)</span>
+                                                <span class="p">]</span>
+                                            <span class="p">)</span>
+                                        <span class="p">]</span>
+                                    <span class="p">)</span>
+                                <span class="p">],</span>
+                                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                                    <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;1vh&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;overflow&#39;</span><span class="p">:</span> <span class="s1">&#39;hidden&#39;</span>
+                                <span class="p">}</span>
+                            <span class="p">)</span>
+                        <span class="p">],</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="s2">&quot;30vh&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;100%&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;border&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;boxShadow&quot;</span><span class="p">:</span> <span class="s2">&quot;0 4px 6px rgba(0,0,0,0.1)&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
+                <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;40%&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;verticalAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;paddingLeft&#39;</span><span class="p">:</span> <span class="s1">&#39;1%&#39;</span>
+                <span class="p">}),</span>
+
+                <span class="c1"># Bar chart (60% of the right half)</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span><span class="s1">&#39;Anzahl der Stellenausschreibungen nach Unternehmensgröße&#39;</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;unternehmensgroesse-balken&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;35vh&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">},</span>
+                        <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;displayModeBar&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+                    <span class="p">)</span>
+                <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;50%&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;0 5px&#39;</span>
+                <span class="p">})</span>
+
+            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span>
+            <span class="p">}),</span>
+
+            <span class="c1"># Bottom row: Job ad trend by portal</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span><span class="s1">&#39;Trend der Stellenanzeigen pro Jobportal&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;trend-linie&#39;</span><span class="p">,</span>
+                    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;38vh&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">},</span>
+                    <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;displayModeBar&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+                <span class="p">)</span>
+            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">})</span>
+        <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;50%&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;verticalAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;0 5px&#39;</span>
+        <span class="p">})</span>
+    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span>
+    <span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="get_comparison_dashboard_layout">
+<a class="viewcode-back" href="../../layouts.html#src.layouts.get_comparison_dashboard_layout">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_comparison_dashboard_layout</span><span class="p">(</span><span class="n">datenrahmen</span><span class="p">,</span> <span class="n">unternehmen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Builds the layout for the &quot;Vergleich der Stellenanzeigen&quot; section of the dashboard based on job advertisements.</span>
+
+<span class="sd">    This section provides a central interface for conducting all relevant comparisons between</span>
+<span class="sd">    compensation and benefits structures. It enables side-by-side analysis of job titles and companies</span>
+<span class="sd">    to support transparent benchmarking. Both sections (left and right) operate independently and allow</span>
+<span class="sd">    flexible comparisons, such as evaluating the same job title across two companies.</span>
+
+<span class="sd">    Key features:</span>
+<span class="sd">        - Two mirrored sections with:</span>
+<span class="sd">            * Dropdown filters for selecting job titles and companies</span>
+<span class="sd">            * Bar charts that visualize grouped compensation and benefit components</span>
+<span class="sd">            * Dynamic headings based on selected filters</span>
+<span class="sd">        - Data is loaded and interpreted here for the first time in the dashboard pipeline</span>
+<span class="sd">        - Compensation and benefit elements are dynamically grouped into categories,</span>
+<span class="sd">          enabling a structured comparison view</span>
+
+<span class="sd">    Bar charts were deliberately chosen to ensure clear and intuitive comparisons of categorical values</span>
+<span class="sd">    across companies and job titles. The design was iteratively improved based on feedback to</span>
+<span class="sd">    maximize accessibility and ease of use for end users.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        - If the &#39;Job_Titel&#39; column is not found in the DataFrame, the layout will still render</span>
+<span class="sd">          but dropdowns will remain empty, and a warning is printed to the console.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        datenrahmen (pd.DataFrame): A DataFrame containing job data, which must include</span>
+<span class="sd">            at least a &#39;Job_Titel&#39; column for job title filtering. Additional columns are used</span>
+<span class="sd">            for downstream visualizations.</span>
+<span class="sd">        unternehmen (list): A list of company names used to populate the company filter dropdowns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        html.Div: A Dash HTML Div component representing the full layout of the comparison dashboard,</span>
+<span class="sd">        including filters and charts for both sides of the comparison view.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Fallback: If the required column doesn&#39;t exist, use empty options</span>
+    <span class="n">job_titel_options</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="s1">&#39;Job_Titel&#39;</span> <span class="ow">in</span> <span class="n">datenrahmen</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">job_titel_options</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">job_titel</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">job_titel</span><span class="p">}</span>
+                             <span class="k">for</span> <span class="n">job_titel</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">datenrahmen</span><span class="p">[</span><span class="s1">&#39;Job_Titel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung: &#39;Job_Titel&#39; Spalte nicht gefunden!&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Main layout for the comparison dashboard</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+
+        <span class="c1"># Main container for side-by-side layout</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="c1"># Left comparison section</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="c1"># Top row of filters</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="c1"># Job title dropdown</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot;Job Titel&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;14px&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;filter-job-titel-links&#39;</span><span class="p">,</span>
+                            <span class="n">options</span><span class="o">=</span><span class="n">job_titel_options</span><span class="p">,</span>
+                            <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Wähle Job Titel&quot;</span><span class="p">,</span>
+                            <span class="n">clearable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">}</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;48%&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span> <span class="s1">&#39;marginRight&#39;</span><span class="p">:</span> <span class="s1">&#39;2%&#39;</span><span class="p">}),</span>
+
+                    <span class="c1"># Company dropdown filter</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot;Unternehmen&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;14px&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;filter-unternehmen-links&#39;</span><span class="p">,</span>
+                            <span class="n">options</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">unternehmen</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">unternehmen</span><span class="p">}</span> <span class="k">for</span> <span class="n">unternehmen</span> <span class="ow">in</span> <span class="n">unternehmen</span><span class="p">],</span>
+                            <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Wähle Unternehmen&quot;</span><span class="p">,</span>
+                            <span class="n">clearable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">}</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;48%&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">})</span>
+                <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;15px&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span>
+                <span class="p">}),</span>
+
+                <span class="c1"># Bar chart for compensation categories (left)</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H4</span><span class="p">(</span><span class="s1">&#39;Vergleich nach Kategorien&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span>
+                    <span class="p">}),</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titel-links&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;0.9rem&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#666&#39;</span>
+                    <span class="p">}),</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;verguetungen-balken-links&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(90vh - 200px)&#39;</span><span class="p">,</span>  <span class="c1"># Adjusted height for extra title space</span>
+                            <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span>
+                        <span class="p">},</span>
+                        <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;displayModeBar&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+                    <span class="p">)</span>
+                <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;flex&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;flexDirection&#39;</span><span class="p">:</span> <span class="s1">&#39;column&#39;</span>
+                <span class="p">})</span>
+            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;49%&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;verticalAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;90vh&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;boxSizing&#39;</span><span class="p">:</span> <span class="s1">&#39;border-box&#39;</span>
+            <span class="p">}),</span>
+
+            <span class="c1"># Right comparison section</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="c1"># Top row of filters</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="c1"># Job title dropdown</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot;Job Titel&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;14px&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;filter-job-titel-rechts&#39;</span><span class="p">,</span>
+                            <span class="n">options</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">job_titel</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">job_titel</span><span class="p">}</span> <span class="k">for</span> <span class="n">job_titel</span> <span class="ow">in</span>
+                                     <span class="nb">sorted</span><span class="p">(</span><span class="n">datenrahmen</span><span class="p">[</span><span class="s1">&#39;Job_Titel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())],</span>
+                            <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Wähle Job Titel&quot;</span><span class="p">,</span>
+                            <span class="n">clearable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">}</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;48%&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span> <span class="s1">&#39;marginRight&#39;</span><span class="p">:</span> <span class="s1">&#39;2%&#39;</span><span class="p">}),</span>
+
+                    <span class="c1"># Company dropdown filter</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot;Unternehmen&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;14px&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">}),</span>
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;filter-unternehmen-rechts&#39;</span><span class="p">,</span>
+                            <span class="n">options</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">unternehmen</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">unternehmen</span><span class="p">}</span> <span class="k">for</span> <span class="n">unternehmen</span> <span class="ow">in</span> <span class="n">unternehmen</span><span class="p">],</span>
+                            <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Wähle Unternehmen&quot;</span><span class="p">,</span>
+                            <span class="n">clearable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">}</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;48%&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">})</span>
+                <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;15px&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span>
+                <span class="p">}),</span>
+
+                <span class="c1"># Bar chart for compensation categories (right)</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H4</span><span class="p">(</span><span class="s1">&#39;Vergleich nach Kategorien&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span>
+                    <span class="p">}),</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H5</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titel-rechts&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;0.9rem&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#666&#39;</span>
+                    <span class="p">}),</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;verguetungen-balken-rechts&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(90vh - 200px)&#39;</span><span class="p">,</span>  <span class="c1"># Adjusted height for extra title space</span>
+                            <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span>
+                        <span class="p">},</span>
+                        <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;displayModeBar&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+                    <span class="p">)</span>
+                <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;flex&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;flexDirection&#39;</span><span class="p">:</span> <span class="s1">&#39;column&#39;</span>
+                <span class="p">})</span>
+            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;49%&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;verticalAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;90vh&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;boxSizing&#39;</span><span class="p">:</span> <span class="s1">&#39;border-box&#39;</span>
+            <span class="p">})</span>
+        <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;90vh&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;overflow&#39;</span><span class="p">:</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span>
+        <span class="p">})</span>
+    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;90vh&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;overflow&#39;</span><span class="p">:</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span>
+    <span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="get_admin_dashboard_layout">
+<a class="viewcode-back" href="../../layouts.html#src.layouts.get_admin_dashboard_layout">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_admin_dashboard_layout</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Builds the layout for the admin section of the dashboard.</span>
+
+<span class="sd">    This interface allows authorized users to control which job titles are included</span>
+<span class="sd">    in the scraping process. It is password-protected to restrict access and is</span>
+<span class="sd">    designed for internal use only.</span>
+
+<span class="sd">    The job title list (left side) can be freely modified to define which positions</span>
+<span class="sd">    should be analyzed. Once finalized, the list can be uploaded to the database</span>
+<span class="sd">    (MongoDB) using the corresponding button. The &#39;Job TitelListe leeren&#39; button enables complete</span>
+<span class="sd">    reset of the job title selection—useful primarily when restarting the project or</span>
+<span class="sd">    redefining the scraping scope from scratch. Although technically possible during</span>
+<span class="sd">    active use, clearing the list is not recommended.</span>
+
+<span class="sd">    Key features:</span>
+<span class="sd">        - Password-protected modal to restrict access to authorized users only.</span>
+<span class="sd">        - Editable job title list input and display section.</span>
+<span class="sd">        - Action buttons for clearing and uploading the job title list.</span>
+<span class="sd">        - Informational alert box guiding the user through the workflow.</span>
+<span class="sd">        - Confirmation modal for list clearing and success modal after upload.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        html.Div: A Dash HTML Div component containing the full layout of the admin dashboard.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Layout Admin section</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+
+        <span class="c1"># Password modal (initially invisible)</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">Modal</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">ModalHeader</span><span class="p">(</span><span class="s2">&quot;Dieser Bereich ist Passwort-geschützt&quot;</span><span class="p">),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">ModalBody</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Bitte geben Sie das Passwort ein, um diesen Bereich öffnen zu können.&quot;</span><span class="p">),</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;admin-passwort-eingabe&#39;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="p">,</span>
+                        <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;Passwort eingeben&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">},</span>
+                        <span class="n">n_submit</span><span class="o">=</span><span class="mi">0</span>  <span class="c1"># Enables submission via Enter key</span>
+                    <span class="p">),</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;passwort-feedback&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">})</span>
+                <span class="p">]),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">ModalFooter</span><span class="p">([</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                        <span class="s2">&quot;Bestätigen&quot;</span><span class="p">,</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;passwort-bestaetigen&#39;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span>
+                    <span class="p">)</span>
+                <span class="p">])</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;passwort-modal&#39;</span><span class="p">,</span>
+            <span class="n">is_open</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">backdrop</span><span class="o">=</span><span class="s1">&#39;static&#39;</span><span class="p">,</span>
+            <span class="n">keyboard</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">),</span>
+
+        <span class="c1"># Main content container (becomes visible after successful password entry)</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+                <span class="c1"># Left column (Job title management)</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">H4</span><span class="p">(</span><span class="s2">&quot;Hier bitte einen Job Titel eingeben&quot;</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">}),</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;jobtitel-eingabe&#39;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                        <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;Hier bitte einen Job Titel eingeben&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span> <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">},</span>
+                        <span class="n">debounce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">autoComplete</span><span class="o">=</span><span class="s1">&#39;off&#39;</span>
+                    <span class="p">),</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;jobtitel-liste-container&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s1">&#39;marginTop&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;border&#39;</span><span class="p">:</span> <span class="s1">&#39;1px solid #ddd&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;borderRadius&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;calc(100vh - 250px)&#39;</span><span class="p">,</span>  <span class="c1"># Responsive height</span>
+                            <span class="s1">&#39;minHeight&#39;</span><span class="p">:</span> <span class="s1">&#39;200px&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;overflowY&#39;</span><span class="p">:</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;#f8f9fa&#39;</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
+                <span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">}),</span>  <span class="c1"># Ensure full-height container</span>
+
+                <span class="c1"># Right column (Actions &amp; instructions)</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                    <span class="c1"># Informational alert</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Alert</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">html</span><span class="o">.</span><span class="n">H4</span><span class="p">(</span><span class="s2">&quot;Hinweis&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;alert-heading&quot;</span><span class="p">,</span>
+                                    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">COLOR_1</span><span class="p">}),</span>
+                            <span class="n">html</span><span class="o">.</span><span class="n">Ol</span><span class="p">([</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">Li</span><span class="p">(</span><span class="s2">&quot;Tragen Sie alle gewünschten Job-Titel in die Liste ein&quot;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">Li</span><span class="p">(</span><span class="s2">&quot;Klicken Sie auf &#39;Liste der Job Titel hochladen&#39;&quot;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">Li</span><span class="p">(</span><span class="s2">&quot;Die gespeicherte Liste wird für die Suche nach Stellenanzeigen verwendet&quot;</span><span class="p">)</span>
+                            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;paddingLeft&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">})</span>
+                        <span class="p">],</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;marginBottom&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">}</span>
+                    <span class="p">),</span>
+                    <span class="c1"># Clear job title list button</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                        <span class="s2">&quot;Job Titel Liste leeren&quot;</span><span class="p">,</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;liste-leeren&#39;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;danger&#39;</span><span class="p">,</span>
+                        <span class="n">className</span><span class="o">=</span><span class="s2">&quot;mb-3&quot;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">}</span>
+                    <span class="p">),</span>
+                    <span class="c1"># Upload job title list button</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                        <span class="s2">&quot;Liste der Job Titel hochladen&quot;</span><span class="p">,</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;liste-hochladen&#39;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;success&#39;</span><span class="p">,</span>
+                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;10px&#39;</span><span class="p">}</span>
+                    <span class="p">),</span>
+
+                    <span class="c1"># Confirmation modal for clearing the list</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Modal</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">ModalHeader</span><span class="p">(</span><span class="s2">&quot;Achtung&quot;</span><span class="p">,</span>
+                                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontWeight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">}),</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">ModalBody</span><span class="p">(</span><span class="s2">&quot;Wollen Sie wirklich alle Job Titel aus der Liste entfernen?&quot;</span><span class="p">),</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">ModalFooter</span><span class="p">([</span>
+                                <span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                                    <span class="s2">&quot;Ja, alle entfernen&quot;</span><span class="p">,</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bestätigen-liste-leeren-ja&quot;</span><span class="p">,</span>
+                                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+                                    <span class="n">className</span><span class="o">=</span><span class="s2">&quot;me-2&quot;</span>
+                                <span class="p">),</span>
+                                <span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                                    <span class="s2">&quot;Abbrechen&quot;</span><span class="p">,</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bestätigen-liste-leeren-nein&quot;</span><span class="p">,</span>
+                                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;secondary&quot;</span>
+                                <span class="p">)</span>
+                            <span class="p">])</span>
+                        <span class="p">],</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bestätigen-liste-leeren-modal&quot;</span><span class="p">,</span>
+                        <span class="n">is_open</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">),</span>
+
+                    <span class="c1"># Success modal for upload</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Modal</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">ModalHeader</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">),</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">ModalBody</span><span class="p">(</span><span class="s2">&quot;Liste erfolgreich hochgeladen&quot;</span><span class="p">),</span>
+                            <span class="n">dbc</span><span class="o">.</span><span class="n">ModalFooter</span><span class="p">(</span>
+                                <span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                                    <span class="s2">&quot;Schließen&quot;</span><span class="p">,</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;erfolg-modal-schliessen&quot;</span><span class="p">,</span>
+                                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;success&quot;</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="p">],</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;erfolg-modal&quot;</span><span class="p">,</span>
+                        <span class="n">is_open</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="p">)</span>
+                <span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">})</span>
+            <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">})</span>
+        <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">},</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;admin-inhalt&#39;</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">})</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Larissa Stein.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
