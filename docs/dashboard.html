@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard module &mdash; Projektseminar 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Layouts module" href="layouts.html" />
+    <link rel="prev" title="MongoDB module" href="MongoDB.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Projektseminar
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction and Motivation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="project_description.html">AI-supported market analysis of compensation &amp; benefits in M&amp;A integrations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker_setup.html">Docker Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">System Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Code Source:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data_download.html">Data_download module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MongoDB.html">MongoDB module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dashboard module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.aktualisiere_dashboard"><code class="docutils literal notranslate"><span class="pre">aktualisiere_dashboard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.passwort_prufen"><code class="docutils literal notranslate"><span class="pre">passwort_prüfen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.aktualisiere_allgemeine_diagramme"><code class="docutils literal notranslate"><span class="pre">aktualisiere_allgemeine_diagramme()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.reset_filters"><code class="docutils literal notranslate"><span class="pre">reset_filters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_job_portal_options"><code class="docutils literal notranslate"><span class="pre">update_job_portal_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_bundesland_options"><code class="docutils literal notranslate"><span class="pre">update_bundesland_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_monat_options"><code class="docutils literal notranslate"><span class="pre">update_monat_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_branche_options"><code class="docutils literal notranslate"><span class="pre">update_branche_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_position_options"><code class="docutils literal notranslate"><span class="pre">update_position_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_unternehmensgroesse_options"><code class="docutils literal notranslate"><span class="pre">update_unternehmensgroesse_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.aktualisiere_verguetungen"><code class="docutils literal notranslate"><span class="pre">aktualisiere_verguetungen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_unternehmen_links"><code class="docutils literal notranslate"><span class="pre">update_unternehmen_links()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_unternehmen_rechts"><code class="docutils literal notranslate"><span class="pre">update_unternehmen_rechts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_job_titel_links"><code class="docutils literal notranslate"><span class="pre">update_job_titel_links()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.update_job_titel_rechts"><code class="docutils literal notranslate"><span class="pre">update_job_titel_rechts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.jobtitel_hinzufuegen"><code class="docutils literal notranslate"><span class="pre">jobtitel_hinzufuegen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.jobtitel_liste_aktualisieren"><code class="docutils literal notranslate"><span class="pre">jobtitel_liste_aktualisieren()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.jobtitel_loeschen"><code class="docutils literal notranslate"><span class="pre">jobtitel_loeschen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.steuere_loeschen_modal"><code class="docutils literal notranslate"><span class="pre">steuere_loeschen_modal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.alle_jobtitel_loeschen"><code class="docutils literal notranslate"><span class="pre">alle_jobtitel_loeschen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.jobtitel_hochladen"><code class="docutils literal notranslate"><span class="pre">jobtitel_hochladen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.schliesse_erfolgsmodal"><code class="docutils literal notranslate"><span class="pre">schliesse_erfolgsmodal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.dashboard.steuere_layout_und_filter"><code class="docutils literal notranslate"><span class="pre">steuere_layout_und_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="layouts.html">Layouts module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jobs_upload.html">Jobs_upload module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">Main module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Projektseminar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Modules</a></li>
+      <li class="breadcrumb-item active">Dashboard module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dashboard.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dashboard-module">
+<h1>Dashboard module<a class="headerlink" href="#dashboard-module" title="Link to this heading"></a></h1>
+<p>This module is responsible for setting up the core variables and defining the overall structure of the dashboard layout.</p>
+<p>Following the layout definition, the module implements several <strong>callback functions</strong>, which form the interactive logic of the dashboard. These callbacks dynamically respond to user inputs - such as filter selections or navigation clicks - and update the displayed content accordingly, enabling a responsive and user-driven interface.</p>
+<dl class="py function" id="module-src.dashboard">
+<dt class="sig sig-object py" id="src.dashboard.aktualisiere_dashboard">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">aktualisiere_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nav_allgemein</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nav_vergleich</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nav_admin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#aktualisiere_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.aktualisiere_dashboard" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the main content area of the dashboard based on the selected navigation item.</p>
+<p>This function reacts to user clicks on the navigation bar and displays the corresponding dashboard section:</p>
+<ul class="simple">
+<li><p><strong>Allgemeine Analyse der Stellenanzeigen</strong> loads the general job analysis dashboard.</p></li>
+<li><p><strong>Vergleich der Stellenanzeigen</strong> loads the comparison dashboard.</p></li>
+<li><p><strong>Admin Bereich</strong> loads the admin section.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nav_allgemein</strong> (<em>int</em><em> or </em><em>None</em>) – Number of clicks on the “General Analysis” nav item.</p></li>
+<li><p><strong>nav_vergleich</strong> (<em>int</em><em> or </em><em>None</em>) – Number of clicks on the “Comparison” nav item.</p></li>
+<li><p><strong>nav_admin</strong> (<em>int</em><em> or </em><em>None</em>) – Number of clicks on the “Admin” nav item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The appropriate layout to render in the ‘hauptinhalt’ div.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dash.html.Div</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.passwort_prufen">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">passwort_prüfen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clicks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_submit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passwort</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#passwort_prüfen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.passwort_prufen" title="Link to this definition"></a></dt>
+<dd><p>Verifies the entered password to grant access to the admin section of the dashboard.</p>
+<p>This callback checks whether a user has clicked the “Bestätigen” button or submitted the password field
+via Enter key. If the provided password matches the predefined correct password, the admin section becomes visible.
+Otherwise, the password modal remains open and an error message is shown.</p>
+<p>The correct password is currently hardcoded in the application and can be freely defined by the developer.
+It is strongly recommended to use a more secure and complex password than the placeholder used here,
+especially in production environments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_clicks</strong> (<em>int</em><em> or </em><em>None</em>) – Number of clicks on the “Confirm Password” button.</p></li>
+<li><p><strong>n_submit</strong> (<em>int</em><em> or </em><em>None</em>) – Number of submissions via Enter key from the password input.</p></li>
+<li><p><strong>passwort</strong> (<em>str</em><em> or </em><em>None</em>) – The user-entered password string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>dict: CSS style to show/hide the admin content div.</p></li>
+<li><p>bool: Flag to open/close the password modal.</p></li>
+<li><p>str: Feedback message displayed to the user in case of incorrect password.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.aktualisiere_allgemeine_diagramme">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">aktualisiere_allgemeine_diagramme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beschaeftigungsart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeitmodell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">berufserfahrung</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#aktualisiere_allgemeine_diagramme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.aktualisiere_allgemeine_diagramme" title="Link to this definition"></a></dt>
+<dd><p>Filters the dataset based on user selections in the dashboard and returns updated visualizations and KPIs.</p>
+<p>This callback function processes multiple user-defined filters and applies them to the underlying job advertisement
+dataset. Based on the filtered data, it generates and returns updated dashboard elements that provide both graphical
+and numerical insights.</p>
+<p>The function produces the following outputs:</p>
+<ul class="simple">
+<li><p>A <strong>choropleth map</strong> showing the number of job advertisements per German federal state.
+Nationwide advertisements (“bundesweit”) are programmatically duplicated across all states.</p></li>
+<li><p>Three <strong>key performance indicators (KPIs)</strong>: total number of unique advertisements, number of unique job titles, and number of unique companies.</p></li>
+<li><p>A <strong>bar chart</strong> displaying the distribution of job advertisements by company size, ordered by defined size categories.</p></li>
+<li><p>A <strong>time-series line chart</strong> illustrating the trend of job advertisements over time, differentiated by portal.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Selected job portals (e.g., ‘Stepstone’, ‘Indeed’).</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Selected German federal states.</p></li>
+<li><p><strong>beschaeftigungsart</strong> (<em>str</em>) – Selected type of employment (e.g., ‘befristet’, ‘unbefristet’).</p></li>
+<li><p><strong>position</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Selected job positions.</p></li>
+<li><p><strong>zeitmodell</strong> (<em>str</em>) – Selected working time model (e.g., ‘Vollzeit’, ‘Teilzeit’).</p></li>
+<li><p><strong>berufserfahrung</strong> (<em>bool</em>) – Whether the position requires prior work experience.</p></li>
+<li><p><strong>monate</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Selected months (format: ‘YYYY-MM’).</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Selected company size categories.</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Selected industry categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(map figure, bar chart, line chart, total count, job title count, company count)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.reset_filters">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">reset_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clicks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#reset_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.reset_filters" title="Link to this definition"></a></dt>
+<dd><p>Clears all selected global filter values when the “Alle Filter löschen” button is clicked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_clicks</strong> (<em>int</em><em> or </em><em>None</em>) – Number of times the reset button has been clicked.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple of default (empty or None) values for all filters to reset the UI state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_job_portal_options">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_job_portal_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_job_portal_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_job_portal_options" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the job portal filter options based on other selected filters.</p>
+<p>Only job portals that are present in the currently filtered dataset will be displayed
+as selectable options in the dropdown menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bundesland</strong> (<em>list</em><em> or </em><em>None</em>) – Selected federal states.</p></li>
+<li><p><strong>monat</strong> (<em>list</em><em> or </em><em>None</em>) – Selected months (format ‘YYYY-MM’).</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em> or </em><em>None</em>) – Selected industries/categories.</p></li>
+<li><p><strong>position</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job positions.</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em> or </em><em>None</em>) – Selected company size categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of dictionaries with available job portal options for the dropdown.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_bundesland_options">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_bundesland_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_bundesland_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_bundesland_options" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the federal state (Bundesland) filter options based on other selected filters.</p>
+<p>Only states present in the currently filtered dataset will be shown as options.
+This ensures that users can only select from values relevant to their current context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job portals.</p></li>
+<li><p><strong>monat</strong> (<em>list</em><em> or </em><em>None</em>) – Selected months (format ‘YYYY-MM’).</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em> or </em><em>None</em>) – Selected industries/categories.</p></li>
+<li><p><strong>position</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job positions.</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em> or </em><em>None</em>) – Selected company size categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of dictionaries with available federal state options for the dropdown.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_monat_options">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_monat_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_monat_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_monat_options" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the month filter options based on other selected filters.</p>
+<p>Only months contained in the filtered results will be offered as selectable options.
+The displayed labels are formatted as ‘Month Year’ (e.g. May 2025) to ensure clarity and improve user experience.</p>
+<p>This formatting decision was made in consultation with PwC to align with their preferred reporting structure.
+Since day-level granularity was not required for the analysis, a month-based view was intentionally implemented
+to simplify selection and interpretation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em><em> or </em><em>None</em>) – Selected federal states.</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em> or </em><em>None</em>) – Selected industries/categories.</p></li>
+<li><p><strong>position</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job positions.</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em> or </em><em>None</em>) – Selected company size categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of dictionaries with available month options for the dropdown,</dt><dd><p>where ‘label’ is a formatted month name and ‘value’ is the ‘YYYY-MM’ string.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_branche_options">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_branche_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_branche_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_branche_options" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the industry filter options based on other selected filters.</p>
+<p>The list of industries is predefined based on an analysis of the existing dataset.
+Only industries present in the currently filtered dataset will be made available in the dropdown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em><em> or </em><em>None</em>) – Selected federal states.</p></li>
+<li><p><strong>monat</strong> (<em>list</em><em> or </em><em>None</em>) – Selected months in ‘YYYY-MM’ format.</p></li>
+<li><p><strong>position</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job positions.</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em> or </em><em>None</em>) – Selected company size categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of dictionaries with available industry/category options for the dropdown,</dt><dd><p>where each dictionary contains ‘label’ and ‘value’ keys with the industry name.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_position_options">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_position_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_position_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_position_options" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the job position filter options based on other selected filters.</p>
+<p>Job positions are shown only if they exist within the current filter selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em><em> or </em><em>None</em>) – Selected federal states.</p></li>
+<li><p><strong>monat</strong> (<em>list</em><em> or </em><em>None</em>) – Selected months in ‘YYYY-MM’ format.</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em> or </em><em>None</em>) – Selected industries/categories.</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em> or </em><em>None</em>) – Selected company size categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of dictionaries with available job position options for the dropdown,</dt><dd><p>each containing ‘label’ and ‘value’ keys with the position name.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_unternehmensgroesse_options">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_unternehmensgroesse_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_unternehmensgroesse_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_unternehmensgroesse_options" title="Link to this definition"></a></dt>
+<dd><p>Dynamically updates the available company size options based on other selected filters.</p>
+<p>Displayed company sizes are limited to those included in the active dataset view.</p>
+<p>To maintain a consistent and intuitive user experience, the returned company size options
+follow a predefined logical order - from smallest to largest company sizes - excluding null or non-occurring values in the current filter context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em><em> or </em><em>None</em>) – Selected federal states.</p></li>
+<li><p><strong>monat</strong> (<em>list</em><em> or </em><em>None</em>) – Selected months in ‘YYYY-MM’ format.</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em> or </em><em>None</em>) – Selected industries/categories.</p></li>
+<li><p><strong>position</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job positions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of dictionaries with available company size options for the dropdown,</dt><dd><p>each containing ‘label’ and ‘value’ keys with the company size name.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.aktualisiere_verguetungen">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">aktualisiere_verguetungen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beschaeftigungsart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeitmodell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">berufserfahrung</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_titel_links</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmen_links</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_titel_rechts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmen_rechts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#aktualisiere_verguetungen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.aktualisiere_verguetungen" title="Link to this definition"></a></dt>
+<dd><p>Updates the job advertisement comparison section (“Vergleich der Stellenanzeigen”) of the dashboard based on selected filters.</p>
+<p>This callback processes user-defined filter selections to dynamically generate two side-by-side
+bar charts, each representing attributes from three predefined compensation-related categories
+for different job titles or companies.</p>
+<p>The function proceeds in several steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Column preparation</strong>:
+It first checks which categories (financial compensation, benefits, and workplace environment)
+are available in the dataset to avoid referencing missing data.</p></li>
+<li><p><strong>Label mapping</strong>:
+Technical column names are mapped to readable, user-facing labels for display in the charts.</p></li>
+<li><p><strong>Data filtering (left and right)</strong>:
+The dataset is filtered independently for the left and right views using the same filter set.
+This enables the comparison of two targeted market segments.</p></li>
+<li><p><strong>Deduplication</strong>:
+Duplicate job advertisements are removed using a unique identifier (<cite>MongoDB_ID</cite>) to ensure
+accurate visualizations and counts.</p></li>
+<li><p><strong>Job count calculation</strong>:
+For both sides, the number of unique advertisements is calculated and included in the chart titles.</p></li>
+</ol>
+<p>The comparison is visualized using bar charts, which were selected for their clarity in presenting
+categorical data. This format allows for intuitive side-by-side comparison and supports a clear visual representation of differences between the two selected job titles or companies.</p>
+<p>Internally, the function contains a dedicated helper function that generates the individual bar charts.
+This helper handles several specific aspects of the visualization:</p>
+<ul class="simple">
+<li><p><strong>Percentage calculation</strong>:
+Compensation attributes are expressed as percentages of the total number of matching job advertisements,
+rather than absolute counts. This approach was implemented in consultation with the supervisors and PwC,
+as it enables more meaningful comparisons between groups of different sizes.</p></li>
+<li><p><strong>Exclusion of zero values</strong>:
+Attributes with 0% occurrence are excluded from the chart to avoid clutter and improve readability.</p></li>
+<li><p><strong>Fallback logic</strong>:
+If no data matches the selected filter criteria, a placeholder chart is rendered to indicate the absence of results.</p></li>
+<li><p><strong>Color scheme by category</strong>:
+Each compensation category (financial, work environment, additional benefits) is represented using a specific
+color from the official PwC color palette to ensure visual consistency with corporate branding.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_portal</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em><em> or </em><em>None</em>) – Selected federal states.</p></li>
+<li><p><strong>beschaeftigungsart</strong> (<em>str</em><em> or </em><em>None</em>) – Selected type of employment (converted internally).</p></li>
+<li><p><strong>position</strong> (<em>list</em><em> or </em><em>None</em>) – Selected job positions.</p></li>
+<li><p><strong>zeitmodell</strong> (<em>str</em><em> or </em><em>None</em>) – Selected working time model.</p></li>
+<li><p><strong>berufserfahrung</strong> (<em>int</em><em> or </em><em>None</em>) – Required professional experience.</p></li>
+<li><p><strong>monate</strong> (<em>list</em><em> or </em><em>None</em>) – Selected months in ‘YYYY-MM’ format.</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em><em> or </em><em>None</em>) – Selected company sizes.</p></li>
+<li><p><strong>branche</strong> (<em>list</em><em> or </em><em>None</em>) – Selected industries.</p></li>
+<li><p><strong>job_titel_links</strong> (<em>str</em><em> or </em><em>None</em>) – Selected job title for left comparison.</p></li>
+<li><p><strong>unternehmen_links</strong> (<em>str</em><em> or </em><em>None</em>) – Selected company for left comparison.</p></li>
+<li><p><strong>job_titel_rechts</strong> (<em>str</em><em> or </em><em>None</em>) – Selected job title for right comparison.</p></li>
+<li><p><strong>unternehmen_rechts</strong> (<em>str</em><em> or </em><em>None</em>) – Selected company for right comparison.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>figure: Left compensation bar chart figure.</p></li>
+<li><p>figure: Right compensation bar chart figure.</p></li>
+<li><p>str: Title text for the left side.</p></li>
+<li><p>str: Title text for the right side.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_unternehmen_links">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_unternehmen_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_titel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beschaeftigungsart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeitmodell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">berufserfahrung</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_unternehmen_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_unternehmen_links" title="Link to this definition"></a></dt>
+<dd><p>Updates the list of available companies in the dropdown menu on the left side of the
+“Vergleich der Stellenanzeigen” section of the dashboard.</p>
+<p>The update is based on both the global filter selections and the selected job title for the left comparison view.</p>
+<p>This ensures that the dropdown only displays companies relevant to the specific combination
+of filters currently applied by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_titel</strong> (<em>str</em>) – Selected job title.</p></li>
+<li><p><strong>job_portal</strong> (<em>list</em>) – List of selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em>) – List of selected federal states.</p></li>
+<li><p><strong>beschaeftigungsart</strong> (<em>str</em>) – Selected type of employment.</p></li>
+<li><p><strong>zeitmodell</strong> (<em>str</em>) – Selected work time model.</p></li>
+<li><p><strong>berufserfahrung</strong> (<em>bool</em>) – Whether professional experience is required.</p></li>
+<li><p><strong>monate</strong> (<em>list</em>) – List of selected months (format ‘YYYY-MM’).</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em>) – List of selected company sizes.</p></li>
+<li><p><strong>branche</strong> (<em>list</em>) – List of selected industry categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dictionaries with ‘label’ and ‘value’ for each available company.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_unternehmen_rechts">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_unternehmen_rechts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_titel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beschaeftigungsart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeitmodell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">berufserfahrung</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_unternehmen_rechts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_unternehmen_rechts" title="Link to this definition"></a></dt>
+<dd><p>Updates the list of available companies in the dropdown menu on the right side of the
+“Vergleich der Stellenanzeigen” section of the dashboard.</p>
+<p>The update is based on both the global filter selections and the selected job title for the right comparison view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_titel</strong> (<em>str</em>) – Selected job title.</p></li>
+<li><p><strong>job_portal</strong> (<em>list</em>) – List of selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em>) – List of selected federal states.</p></li>
+<li><p><strong>beschaeftigungsart</strong> (<em>str</em>) – Selected type of employment.</p></li>
+<li><p><strong>zeitmodell</strong> (<em>str</em>) – Selected work time model.</p></li>
+<li><p><strong>berufserfahrung</strong> (<em>bool</em>) – Whether professional experience is required.</p></li>
+<li><p><strong>monate</strong> (<em>list</em>) – List of selected months (format ‘YYYY-MM’).</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em>) – List of selected company sizes.</p></li>
+<li><p><strong>branche</strong> (<em>list</em>) – List of selected industry categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dictionaries with ‘label’ and ‘value’ for each available company.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_job_titel_links">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_job_titel_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unternehmen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beschaeftigungsart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeitmodell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">berufserfahrung</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_job_titel_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_job_titel_links" title="Link to this definition"></a></dt>
+<dd><p>Updates the list of available job titles in the dropdown menu on the left side of the
+“Vergleich der Stellenanzeigen” section of the dashboard.</p>
+<p>The update is based on both the global filter selections and the optionally selected company
+for the left comparison view.</p>
+<p>This ensures that the dropdown only displays job titles relevant to the specific combination
+of filters currently applied by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unternehmen</strong> (<em>str</em>) – Selected company.</p></li>
+<li><p><strong>job_portal</strong> (<em>list</em>) – List of selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em>) – List of selected federal states.</p></li>
+<li><p><strong>beschaeftigungsart</strong> (<em>str</em>) – Selected type of employment.</p></li>
+<li><p><strong>zeitmodell</strong> (<em>str</em>) – Selected work time model.</p></li>
+<li><p><strong>berufserfahrung</strong> (<em>bool</em>) – Whether professional experience is required.</p></li>
+<li><p><strong>monate</strong> (<em>list</em>) – List of selected months (format ‘YYYY-MM’).</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em>) – List of selected company sizes.</p></li>
+<li><p><strong>branche</strong> (<em>list</em>) – List of selected industry categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dictionaries with ‘label’ and ‘value’ for each available job title.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.update_job_titel_rechts">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">update_job_titel_rechts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unternehmen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_portal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundesland</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beschaeftigungsart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeitmodell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">berufserfahrung</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unternehmensgroesse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branche</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#update_job_titel_rechts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.update_job_titel_rechts" title="Link to this definition"></a></dt>
+<dd><p>Updates the list of available job titles in the dropdown menu on the right side of the
+“Vergleich der Stellenanzeigen” section of the dashboard.</p>
+<p>The update is based on both the global filter selections and the optionally selected company
+for the right comparison view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unternehmen</strong> (<em>str</em>) – Selected company.</p></li>
+<li><p><strong>job_portal</strong> (<em>list</em>) – List of selected job portals.</p></li>
+<li><p><strong>bundesland</strong> (<em>list</em>) – List of selected federal states.</p></li>
+<li><p><strong>beschaeftigungsart</strong> (<em>str</em>) – Selected type of employment.</p></li>
+<li><p><strong>zeitmodell</strong> (<em>str</em>) – Selected work time model.</p></li>
+<li><p><strong>berufserfahrung</strong> (<em>bool</em>) – Whether professional experience is required.</p></li>
+<li><p><strong>monate</strong> (<em>list</em>) – List of selected months (format ‘YYYY-MM’).</p></li>
+<li><p><strong>unternehmensgroesse</strong> (<em>list</em>) – List of selected company sizes.</p></li>
+<li><p><strong>branche</strong> (<em>list</em>) – List of selected industry categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dictionaries with ‘label’ and ‘value’ for each available job title.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.jobtitel_hinzufuegen">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">jobtitel_hinzufuegen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_submit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neuer_jobtitel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aktuelle_liste</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#jobtitel_hinzufuegen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.jobtitel_hinzufuegen" title="Link to this definition"></a></dt>
+<dd><p>Adds a new job title to the temporary list when the user presses Enter in the input field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_submit</strong> (<em>int</em>) – Triggered when the Enter key is pressed in the input field.</p></li>
+<li><p><strong>neuer_jobtitel</strong> (<em>str</em>) – The new job title entered by the user.</p></li>
+<li><p><strong>aktuelle_liste</strong> (<em>list</em>) – The current temporary list of job titles.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated list of job titles if the new entry is valid and not a duplicate.
+str: Clears the input field after a valid submission.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.jobtitel_liste_aktualisieren">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">jobtitel_liste_aktualisieren</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jobtitel_liste</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#jobtitel_liste_aktualisieren"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.jobtitel_liste_aktualisieren" title="Link to this definition"></a></dt>
+<dd><p>Updates the visual list of job titles based on the current temporary storage.</p>
+<p>This function generates a list of rows, each containing a job title and an associated delete button.
+The delete buttons use Dash pattern-matching IDs to support dynamic interaction.</p>
+<p>If the list is empty, a placeholder message is displayed instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>jobtitel_liste</strong> (<em>list</em>) – A list of job titles stored temporarily.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of rows containing job titles and corresponding delete buttons.</dt><dd><p>If the list is empty, a message is shown instead.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of html.Div</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.jobtitel_loeschen">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">jobtitel_loeschen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clicks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobtitel_liste</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#jobtitel_loeschen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.jobtitel_loeschen" title="Link to this definition"></a></dt>
+<dd><p>Deletes a specific job title from the temporary job title list when its corresponding delete button is clicked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>clicks</strong> (<em>list</em>) – List of click counts from dynamically generated delete buttons.</p></li>
+<li><p><strong>jobtitel_liste</strong> (<em>list</em>) – The current list of job titles stored temporarily.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated job title list with the selected entry removed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.steuere_loeschen_modal">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">steuere_loeschen_modal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open_clicks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confirm_clicks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancel_clicks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#steuere_loeschen_modal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.steuere_loeschen_modal" title="Link to this definition"></a></dt>
+<dd><p>Controls the visibility of the confirmation modal that appears when the user attempts to clear
+the job title list in the dashboard’s admin section.</p>
+<p>This callback determines whether the modal should be shown or hidden, based on which button
+triggered the action. It listens to three buttons: the initial “Job Titel Liste leeren” button, the
+“Ja, alle entfernen” (Yes) button inside the modal, and the “Abbrechen” (No) button.</p>
+<ul class="simple">
+<li><p>If the user clicks the “Job Titel Liste leeren” button, the modal is opened.</p></li>
+<li><p>If the user clicks either “Yes” or “No” inside the modal, it is closed.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>open_clicks</strong> (<em>int</em>) – Clicks on the “clear list” button.</p></li>
+<li><p><strong>confirm_clicks</strong> (<em>int</em>) – Clicks on the confirmation (“Yes”) button inside the modal.</p></li>
+<li><p><strong>cancel_clicks</strong> (<em>int</em>) – Clicks on the cancel (“No”) button inside the modal.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the modal should be opened, False if it should be closed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.alle_jobtitel_loeschen">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">alle_jobtitel_loeschen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clicks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#alle_jobtitel_loeschen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.alle_jobtitel_loeschen" title="Link to this definition"></a></dt>
+<dd><p>Clears all job titles from the temporary storage when the user confirms the action in the modal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_clicks</strong> (<em>int</em>) – Number of clicks on the confirmation (“Yes”) button.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An empty list to clear the job title storage or no_update if no action is needed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list or no_update</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.jobtitel_hochladen">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">jobtitel_hochladen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clicks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobtitel_liste</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#jobtitel_hochladen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.jobtitel_hochladen" title="Link to this definition"></a></dt>
+<dd><p>Uploads the current job title list to MongoDB when the upload button is clicked,
+and opens a confirmation modal upon success.</p>
+<p>This callback is triggered by the user clicking the “Liste der Job Titel hochladen” button. It performs two actions:</p>
+<ol class="arabic simple">
+<li><p>Saves the current job title list locally using a predefined helper function.</p></li>
+<li><p>Attempts to upload the list to MongoDB via a dedicated database interface function.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_clicks</strong> (<em>int</em>) – Number of clicks on the upload button.</p></li>
+<li><p><strong>jobtitel_liste</strong> (<em>list</em>) – The current list of job titles stored temporarily.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True to open the success modal, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.schliesse_erfolgsmodal">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">schliesse_erfolgsmodal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clicks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#schliesse_erfolgsmodal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.schliesse_erfolgsmodal" title="Link to this definition"></a></dt>
+<dd><p>Closes the success modal when the user clicks the close button.</p>
+<p>The modal can be closed either via the “X” icon in the upper corner or via the “Schließen” button within the modal.</p>
+<p>If no interaction occurs, the modal remains unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_clicks</strong> (<em>int</em>) – Number of clicks on the modal close button.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns False to close the modal, or no_update if no clicks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool or no_update</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.dashboard.steuere_layout_und_filter">
+<span class="sig-prename descclassname"><span class="pre">src.dashboard.</span></span><span class="sig-name descname"><span class="pre">steuere_layout_und_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nav_allgemein</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nav_vergleich</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nav_admin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aktueller_inhalt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dashboard.html#steuere_layout_und_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.dashboard.steuere_layout_und_filter" title="Link to this definition"></a></dt>
+<dd><p>Controls the layout of the dashboard and the visibility of the left-side global filter section
+based on the selected navigation bar section.</p>
+<p>When the user navigates to the Admin section, the global filter column is hidden, and the
+main content area expands to full width.</p>
+<p>The function considers both the most recently clicked navigation button and the currently
+rendered content to determine the active section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nav_allgemein</strong> (<em>int</em>) – Clicks on the ‘Allgemein’ navigation button.</p></li>
+<li><p><strong>nav_vergleich</strong> (<em>int</em>) – Clicks on the ‘Vergleich’ navigation button.</p></li>
+<li><p><strong>nav_admin</strong> (<em>int</em>) – Clicks on the ‘Admin’ navigation button.</p></li>
+<li><p><strong>aktueller_inhalt</strong> (<em>component</em>) – The current content component displayed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Styles for main content and filter column:</dt><dd><ul class="simple">
+<li><p>Main content style (dict): Adjusted for full width in admin or normal width otherwise.</p></li>
+<li><p>Filter column style (dict): Hidden in admin view, shown otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MongoDB.html" class="btn btn-neutral float-left" title="MongoDB module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="layouts.html" class="btn btn-neutral float-right" title="Layouts module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Larissa Stein.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
