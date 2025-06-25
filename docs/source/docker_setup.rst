@@ -42,16 +42,20 @@ How to Build and Run the Container
 
    .. code-block:: bash
 
-      docker build -t dash-dashboard .
+      docker build -t dashboard-app .
+
+   The name ``dashboard-app`` is freely chosen and can be replaced with any image name you prefer.
+   Just make sure to use the same name in the run command below.
 
 3. **Start the container**:
 
    .. code-block:: bash
 
-      docker run --env-file .env -p 8050:8050 --name dashboard-container dash-dashboard
+      docker run --env-file .env -p 8050:8050 --name dashboard-container dashboard-app
 
-   - ``--env-file .env`` loads required credentials and settings
-   - ``-p 8050:8050`` maps the internal port to your local machine
+   - ``--env-file .env`` loads required credentials and settings from the environment file
+   - ``-p 8050:8050`` maps the container's internal port 8050 to the host machine
+   - ``--name dashboard-container`` assigns a convenient name to the container for easier reference
 
 4. **Access the dashboard**:
 
