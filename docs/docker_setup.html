@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 <!DOCTYPE html>
@@ -207,4 +208,215 @@ Just make sure to use the same name in the run command below.</p>
   </script> 
 
 </body>
+=======
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docker Setup &mdash; Projektseminar 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage Instructions" href="usage.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Projektseminar
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction and Motivation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="project_description.html">AI-supported market analysis of compensation &amp; benefits in M&amp;A integrations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Docker Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-requirements">Installation Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-integration">Project Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-build-and-run-the-container">How to Build and Run the Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-stop-the-container">How to Stop the Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes-on-mongodb-integration">Notes on MongoDB Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security-note">Security Note</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">System Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Code Source:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Projektseminar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Docker Setup</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/docker_setup.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="docker-setup">
+<h1>Docker Setup<a class="headerlink" href="#docker-setup" title="Link to this heading"></a></h1>
+<p>This section explains how Docker is used to deploy the dashboard developed in the “Projektseminar 2025”. It outlines the installation requirements, usage instructions, and how to access the application through a web browser.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Docker allows the dashboard to run inside a self-contained container. This means that all necessary software (e.g., Python, Dash, libraries, and source code) is bundled together. As a result, the dashboard runs consistently on any machine without requiring manual setup of environments.</p>
+<p>What Docker Provides:</p>
+<ul class="simple">
+<li><p>Portable, reproducible environment</p></li>
+<li><p>Simplified deployment across systems</p></li>
+<li><p>Easy start/stop with a single command</p></li>
+</ul>
+</section>
+<section id="installation-requirements">
+<h2>Installation Requirements<a class="headerlink" href="#installation-requirements" title="Link to this heading"></a></h2>
+<p>Before running the project with Docker, ensure the following components are installed:</p>
+<ul class="simple">
+<li><p><cite>Docker Desktop</cite> (available at <a class="reference external" href="https://www.docker.com/products/docker-desktop">https://www.docker.com/products/docker-desktop</a>)</p></li>
+<li><p>A Git client (e.g., GitHub Desktop) to download the project</p></li>
+<li><p>Internet access for image and package downloads</p></li>
+</ul>
+</section>
+<section id="project-integration">
+<h2>Project Integration<a class="headerlink" href="#project-integration" title="Link to this heading"></a></h2>
+<p>Docker is integrated into the project through the following components:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>: Defines the environment (based on <code class="docutils literal notranslate"><span class="pre">python:3.11-slim</span></code>), installs all Python dependencies from <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, copies the code, and runs the dashboard.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code>: Prevents unnecessary files (e.g., virtual environments or local builds) from being copied into the container.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_main.py</span></code>: Entry point used by Docker to start the dashboard application.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.env</span></code>: Contains environment variables, e.g., MongoDB credentials.</p></li>
+</ul>
+</section>
+<section id="how-to-build-and-run-the-container">
+<h2>How to Build and Run the Container<a class="headerlink" href="#how-to-build-and-run-the-container" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Open a terminal or command prompt</strong> in the project root folder.</p></li>
+<li><p><strong>Build the Docker image</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>dashboard-app<span class="w"> </span>.
+</pre></div>
+</div>
+<p>The name <code class="docutils literal notranslate"><span class="pre">dashboard-app</span></code> is freely chosen and can be replaced with any image name you prefer.
+Just make sure to use the same name in the run command below.</p>
+</li>
+<li><p><strong>Start the container</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>-p<span class="w"> </span><span class="m">8050</span>:8050<span class="w"> </span>--name<span class="w"> </span>dashboard-container<span class="w"> </span>dashboard-app
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--env-file</span> <span class="pre">.env</span></code> loads required credentials and settings from the environment file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">8050:8050</span></code> maps the container’s internal port 8050 to the host machine</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--name</span> <span class="pre">dashboard-container</span></code> assigns a convenient name to the container for easier reference</p></li>
+</ul>
+</li>
+<li><p><strong>Access the dashboard</strong>:</p>
+<p>Open a web browser and go to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8050</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="how-to-stop-the-container">
+<h2>How to Stop the Container<a class="headerlink" href="#how-to-stop-the-container" title="Link to this heading"></a></h2>
+<p>To stop the container when no longer needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>stop<span class="w"> </span>dashboard-container
+</pre></div>
+</div>
+<p>To remove the container completely (if rebuilding):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>rm<span class="w"> </span>dashboard-container
+</pre></div>
+</div>
+</section>
+<section id="notes-on-mongodb-integration">
+<h2>Notes on MongoDB Integration<a class="headerlink" href="#notes-on-mongodb-integration" title="Link to this heading"></a></h2>
+<p>The dashboard uses a MongoDB Atlas cloud database to manage job title data. Credentials are provided through the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file and not hardcoded in the source code. MongoDB connection testing is included in <code class="docutils literal notranslate"><span class="pre">MongoDB.py</span></code> using the official <code class="docutils literal notranslate"><span class="pre">pymongo</span></code> driver.</p>
+</section>
+<section id="security-note">
+<h2>Security Note<a class="headerlink" href="#security-note" title="Link to this heading"></a></h2>
+<p>As part of this Docker setup, the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file - containing sensitive environment variables such as the MongoDB URI - was intentionally not included in the repository. To prevent any accidental exposure of credentials, the file is explicitly listed in the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file. This ensures that confidential configuration data remains secure and is not published to GitHub.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage Instructions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Larissa Stein.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+>>>>>>> c610588dd71d7f64468b951ed282a24823f68423
 </html>
